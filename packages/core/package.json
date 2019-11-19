@@ -19,9 +19,12 @@
     "rxjs": "latest",
     "warning": "^4.0.3"
   },
-  "gitHead": "6313c9e830c1ae3bc30b6aa180f3bdb012285d4f",
+  "gitHead": "3dc663b9c112637ea7947a830d8180ef806b704f",
   "devDependencies": {
     "docz": "^1.3.2",
     "typescript": "^3.7.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

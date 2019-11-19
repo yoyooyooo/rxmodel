@@ -23,5 +23,8 @@
   "devDependencies": {
     "docz": "^1.3.2"
   },
-  "gitHead": "6313c9e830c1ae3bc30b6aa180f3bdb012285d4f"
+  "gitHead": "3dc663b9c112637ea7947a830d8180ef806b704f",
+  "publishConfig": {
+    "access": "public"
+  }
 }
