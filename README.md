@@ -1,1 +1,1 @@
-# rxmodel
+enjoy Rxjs. everything is pipes.

@@ -1,0 +1,16 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "build:all": "npx father build"
+  },
+  "devDependencies": {
+    "lerna": "^3.18.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "immer": "^5.0.0"
+  }
+}

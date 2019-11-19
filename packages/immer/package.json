@@ -1,0 +1,19 @@
+{
+  "name": "@rxmodel/immer",
+  "version": "0.0.0-alpha.1",
+  "description": "",
+  "main": "es/index.js",
+  "files": [
+    "lib",
+    "es"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "immer": "^5.0.0"
+  }
+}
