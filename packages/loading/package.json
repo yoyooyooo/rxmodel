@@ -1,6 +1,6 @@
 {
   "name": "@rxmodel/loading",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.3-alpha.0",
   "description": "",
   "main": "es/index.js",
   "files": [
@@ -15,5 +15,6 @@
   "license": "ISC",
   "peerDependencies": {
     "rxjs": "6.x"
-  }
+  },
+  "gitHead": "6313c9e830c1ae3bc30b6aa180f3bdb012285d4f"
 }
