@@ -40,7 +40,7 @@ function createApp(options) {
   }
 
   function start() {
-    connectRxjs({ app, plugin });
+    connectRxjs({ app, plugin, options });
   }
 }
 

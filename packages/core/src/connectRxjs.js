@@ -60,15 +60,19 @@ const prefixNamespace = (action, namespace) => {
 const _dispatch = namespace => action => {
   dispatch(prefixNamespace(action, namespace));
 };
-function handleEffect({ app, plugin }) {
+function handleEffect({ app, plugin, options }) {
   return pipe(
     mergeMap(prevAction => {
       const effect = prevAction.__model.effects[prevAction.type];
       const effectToReducer = action$ => {
-        const returnObservable$ = effect(action$, {
-          ...store,
-          dispatch: _dispatch(prevAction.__namespace),
-        });
+        const returnObservable$ = effect(
+          action$,
+          {
+            ...store,
+            dispatch: _dispatch(prevAction.__namespace),
+          },
+          { ...(options.extraEffectOperator || {}) }
+        );
         invariant(
           isObservable(returnObservable$),
           `[model.effects] effect must return Observable, but got ${typeof returnObservable$}`
@@ -91,7 +95,7 @@ function handleEffect({ app, plugin }) {
   );
 }
 
-function handleAction({ app, plugin }) {
+function handleAction({ app, plugin, options }) {
   return action$ =>
     action$.pipe(
       applyMiddleware(plugin.api.middlewares.action, { app }),
@@ -99,7 +103,7 @@ function handleAction({ app, plugin }) {
         if (action.__type === 'effect') {
           return of(action).pipe(
             tap(action => effect$$.next(action)),
-            applyMiddleware(plugin.api.middlewares.effect, store, () => handleEffect({ app, plugin, action$ })),
+            applyMiddleware(plugin.api.middlewares.effect, store, () => handleEffect({ app, plugin, options })),
             tap(action => action$$.next(action))
           );
         } else if (action.__type === 'reducer') {
@@ -121,11 +125,11 @@ export function createModelStream(model) {
   });
 }
 
-export default function connectRxjs({ app, plugin, reducers }) {
+export default function connectRxjs({ app, plugin, options, reducers }) {
   state$$.next(app._initialState);
   action$$
     .pipe(
-      applyMiddleware(plugin.api.middlewares.total, store, () => handleAction({ app, plugin })),
+      applyMiddleware(plugin.api.middlewares.total, store, () => handleAction({ app, plugin, options })),
       catchError(err => {
         console.error(`[error]`, err);
         return EMPTY;
