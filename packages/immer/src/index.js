@@ -1,4 +1,4 @@
-import produce from "immer";
+import produce from 'immer';
 
 export default () => api => {
   api.hooks._handleActions.add((handlers, defaultState) => {

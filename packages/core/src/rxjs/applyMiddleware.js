@@ -1,5 +1,5 @@
-import { pipe, of } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+import { pipe, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 export default function applyMiddleware(
   middlewares = [],
@@ -14,9 +14,9 @@ export default function applyMiddleware(
       const head = chain.shift();
       operator = head(nextConfig => {
         config =
-          typeof nextConfig === "undefined"
+          typeof nextConfig === 'undefined'
             ? config
-            : typeof nextConfig === "function"
+            : typeof nextConfig === 'function'
             ? nextConfig(config)
             : nextConfig;
         return goNext(config);

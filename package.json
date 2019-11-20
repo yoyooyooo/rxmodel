@@ -2,10 +2,12 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build:all": "npx father build"
+    "build:all": "npx father build",
+    "format": "prettier --write \"**/*.js\""
   },
   "devDependencies": {
-    "lerna": "^3.18.4"
+    "lerna": "^3.18.4",
+    "prettier": "^1.19.1"
   },
   "workspaces": [
     "packages/*"

@@ -1,23 +1,21 @@
 export default (models, action, namespace) => {
-  if (typeof namespace === "undefined") {
-    namespace = action.type.split("/")[0];
+  if (typeof namespace === 'undefined') {
+    namespace = action.type.split('/')[0];
   }
 
   const model = models.find(a => namespace === a.namespace);
   let type;
   if (!model) {
-    type = "unknown";
+    type = 'unknown';
   } else {
     if (Object.keys(model.reducers || {}).some(key => key === action.type)) {
-      type = "reducer";
+      type = 'reducer';
     }
     if (Object.keys(model.effects || {}).some(key => key === action.type)) {
-      type = "effect";
+      type = 'effect';
     }
-    if (
-      Object.keys(model.subscriptions || {}).some(key => key === action.type)
-    ) {
-      type = "subscription";
+    if (Object.keys(model.subscriptions || {}).some(key => key === action.type)) {
+      type = 'subscription';
     }
   }
 

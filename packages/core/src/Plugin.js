@@ -1,9 +1,9 @@
-import invariant from "invariant";
-import { isPlainObject } from "./utils";
-import { runInThisContext } from "vm";
-import handleAction from "./middlewares/handleAction";
+import invariant from 'invariant';
+import { isPlainObject } from './utils';
+import { runInThisContext } from 'vm';
+import handleAction from './middlewares/handleAction';
 
-const hooks = ["onAction", "onReducer", "onEffect", "_handleActions"];
+const hooks = ['onAction', 'onReducer', 'onEffect', '_handleActions'];
 
 export function filterHooks(obj) {
   return Object.keys(obj).reduce((memo, key) => {
@@ -17,19 +17,16 @@ export function filterHooks(obj) {
 class Hook {
   constructor() {
     this.fns = [];
-    this.add = this.add.bind(this);
-    this.apply = this.apply.bind(this);
-    this.applyForEach = this.applyForEach.bind(this);
   }
-  add(fn) {
+  add = fn => {
     this.fns.push(fn);
-  }
-  apply(...args) {
+  };
+  apply = (...args) => {
     return this.fns[0](...args);
-  }
-  applyForEach(...args) {
+  };
+  applyForEach = (...args) => {
     this.fns.forEach(fn => fn(...args));
-  }
+  };
 
   // applyCompose(fns) {
   //   return (...args) => {
@@ -46,8 +43,8 @@ class Hook {
  * @memberof Plugin
  */
 export default class Plugin {
-  constructor(api, options = {}) {
-    this.use = this.use.bind(this);
+  constructor(api, options) {
+    const { middlewares = {} } = options;
     this.api = api;
     this.api.hooks = hooks.reduce((memo, key) => {
       memo[key] = new Hook();
@@ -55,10 +52,10 @@ export default class Plugin {
     }, {});
     this.api.registerMiddleware = this.registerMiddleware.bind(this);
     this.api.middlewares = {
-      total: options.middlewares || [],
-      reducer: [],
-      effect: [],
-      action: [handleAction]
+      total: middlewares.total || [],
+      reducer: middlewares.reducer || [],
+      effect: middlewares.effect || [],
+      action: [handleAction],
     };
   }
 
@@ -66,27 +63,21 @@ export default class Plugin {
     this.api.middlewares[key].push(middleware);
   };
 
-  use(createPlugin) {
+  use = createPlugin => {
     const hooksObj = createPlugin(this.api);
 
     if (hooksObj) {
-      invariant(
-        isPlainObject(plugin),
-        "plugin.use: plugin must return plain object or undefined"
-      );
+      invariant(isPlainObject(plugin), 'plugin.use: plugin must return plain object or undefined');
       Object.keys(hooksObj).forEach(key => {
         this.api.hooks[key].add(hooksObj[key]);
       });
     }
-  }
+  };
 
-  apply(key, defaultHandler) {
+  apply = (key, defaultHandler) => {
     const { hooks } = this;
-    const validApplyHooks = ["onError", "onHmr"];
-    invariant(
-      validApplyHooks.indexOf(key) > -1,
-      `plugin.apply: hook ${key} cannot be applied`
-    );
+    const validApplyHooks = ['onError', 'onHmr'];
+    invariant(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
     const fns = hooks[key];
 
     return (...args) => {
@@ -98,22 +89,22 @@ export default class Plugin {
         defaultHandler(...args);
       }
     };
-  }
+  };
 
-  get(key) {
+  get = key => {
     const { hooks } = this;
     invariant(key in hooks, `plugin.get: hook ${key} cannot be got`);
     return hooks[key];
-  }
+  };
 
-  modifyForEach(fns) {
+  modifyForEach = fns => {
     return obj => {
       fns.forEach(fn => {
         obj = fn(obj);
       });
       return obj;
     };
-  }
+  };
 }
 
 function _compose(...funcs) {

@@ -1,13 +1,14 @@
-import createApp, { state$$ } from "@rxmodel/core";
-import { fromEvent } from "rxjs";
-import { mapTo, delay } from "rxjs/operators";
+import createApp, { state$$ } from '@rxmodel/core';
+import devtools from '@rxmodel/devtools';
+import { fromEvent } from 'rxjs';
+import { mapTo, delay } from 'rxjs/operators';
 
 const app = createApp();
-
+app.use(devtools());
 app.model({
-  namespace: "count",
+  namespace: 'count',
   state: {
-    n: 0
+    n: 0,
   },
   reducers: {
     add(state, action) {
@@ -15,28 +16,28 @@ app.model({
     },
     minus(state, action) {
       return { ...state, n: state.n - 1 };
-    }
+    },
   },
   effects: {
     addAsync(action$) {
-      return action$.pipe(delay(1000), mapTo({ type: "add" }));
-    }
-  }
+      return action$.pipe(delay(1000), mapTo({ type: 'add' }));
+    },
+  },
 });
 app.start();
 
 state$$.subscribe(state => {
-  document.querySelector("#result").innerHTML = state.count.n;
+  document.querySelector('#result').innerHTML = state.count.n;
 });
 
-fromEvent(document.querySelector("#add"), "click").subscribe(() => {
-  app.store.dispatch({ type: "count/add" });
+fromEvent(document.querySelector('#add'), 'click').subscribe(() => {
+  app.store.dispatch({ type: 'count/add' });
 });
 
-fromEvent(document.querySelector("#minus"), "click").subscribe(() => {
-  app.store.dispatch({ type: "count/minus" });
+fromEvent(document.querySelector('#minus'), 'click').subscribe(() => {
+  app.store.dispatch({ type: 'count/minus' });
 });
 
-fromEvent(document.querySelector("#addAsync"), "click").subscribe(() => {
-  app.store.dispatch({ type: "count/addAsync" });
+fromEvent(document.querySelector('#addAsync'), 'click').subscribe(() => {
+  app.store.dispatch({ type: 'count/addAsync' });
 });

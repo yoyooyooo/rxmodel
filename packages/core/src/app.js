@@ -1,20 +1,11 @@
-import checkModel from "./checkModel";
-import connectRxjs, {
-  store,
-  state$$,
-  action$$,
-  reducer$$,
-  effect$$,
-  createModelStream
-} from "./connectRxjs";
-import getReducer from "./getReducer";
-import Plugin from "./Plugin";
-import prefixNamespace from "./prefixNamespace";
+import checkModel from './checkModel';
+import connectRxjs, { createModelStream, store } from './connectRxjs';
+import getReducer from './getReducer';
+import Plugin from './Plugin';
+import prefixNamespace from './prefixNamespace';
 
-function createApp(opts = {}) {
-  const { middlewares = [] } = opts;
-
-  const plugin = new Plugin({ registerModel: model, store }, opts);
+function createApp(options) {
+  const plugin = new Plugin({ registerModel: model, store }, options);
 
   let app = {
     _initialState: {},
@@ -24,13 +15,13 @@ function createApp(opts = {}) {
     model,
     start,
     use: plugin.use,
-    store
+    store,
   };
-  (opts.plugins || []).forEach(p => plugin.use(p));
+  (options.plugins || []).forEach(p => plugin.use(p));
   return app;
 
   function model(m) {
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
     const prefixedModel = prefixNamespace({ ...m });
@@ -53,7 +44,7 @@ function createApp(opts = {}) {
   }
 }
 
-export default function init(opts) {
+export default function init(opts = {}) {
   const app = createApp(opts);
   return app;
 }

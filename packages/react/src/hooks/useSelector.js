@@ -1,5 +1,5 @@
-import { state$$ } from "@rxmodel/core";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { state$$ } from '@rxmodel/core';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const refEquality = (a, b) => a === b;
 
