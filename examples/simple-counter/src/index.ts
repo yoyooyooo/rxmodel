@@ -5,8 +5,6 @@ import immer from '@rxmodel/immer';
 import { fromEvent } from 'rxjs';
 import { delay, mapTo } from 'rxjs/operators';
 
-console.log(immer);
-
 const app = createApp({
   extraEffectOperator: {
     test() {
