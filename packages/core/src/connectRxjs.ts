@@ -11,7 +11,14 @@ import {
 } from 'rxjs';
 import { catchError, filter, map, mergeMap, scan, tap } from 'rxjs/operators';
 import applyMiddleware from './applyMiddleware';
-import { AnyAction, Model, Store } from './types';
+import { AnyAction, Model, Store, App, Options } from './types';
+import Plugin from './Plugin';
+
+interface Ctx {
+  app?: App;
+  plugin?: Plugin;
+  options?: Options;
+}
 
 export const state$$ = new BehaviorSubject<any>(null);
 export const unknown$$ = new Subject<AnyAction>();
@@ -43,7 +50,7 @@ export const store: Store = {
   },
 };
 
-function handleReducer({ app }) {
+function handleReducer({ app }: Ctx) {
   return pipe(
     scan<AnyAction>((state, action) => {
       const reducers = app._reducers;
@@ -72,7 +79,7 @@ const prefixNamespace = (action: AnyAction, namespace: string) => {
 const _dispatch = (namespace: string) => (action: AnyAction) => {
   dispatch(prefixNamespace(action, namespace));
 };
-const handleEffect = ({ options }) => {
+const handleEffect = ({ options }: Ctx) => {
   return pipe(
     mergeMap<AnyAction, Observable<AnyAction>>(prevAction => {
       const effect = prevAction.__model.effects[prevAction.type];
@@ -110,32 +117,27 @@ const handleEffect = ({ options }) => {
   );
 };
 
-const handleAction: (a: any) => OperatorFunction<AnyAction, AnyAction> = ({
-  app,
-  plugin,
-  options,
-}) => {
-  return action$ =>
-    action$.pipe(
-      applyMiddleware(plugin.api.middlewares.action, { app }),
-      mergeMap<AnyAction, Observable<AnyAction>>(action => {
-        if (action.__type === 'effect') {
-          return of(action).pipe(
-            tap(action => effect$$.next(action)),
-            applyMiddleware(plugin.api.middlewares.effect, store, () => handleEffect({ options })),
-            tap(action => action$$.next(action))
-          );
-        } else if (action.__type === 'reducer') {
-          return of(action).pipe(
-            tap(action => reducer$$.next(action)),
-            applyMiddleware(plugin.api.middlewares.reducer, store, () => handleReducer({ app })),
-            tap(action => state$$.next(action))
-          );
-        } else {
-          return of(action).pipe(tap(action => unknown$$.next(action)));
-        }
-      })
-    );
+const handleAction = ({ app, plugin, options }: Ctx) => {
+  return pipe(
+    applyMiddleware<AnyAction, AnyAction>(plugin.api.middlewares.action, { app }),
+    mergeMap(action => {
+      if (action.__type === 'effect') {
+        return of(action).pipe(
+          tap(action => effect$$.next(action)),
+          applyMiddleware(plugin.api.middlewares.effect, store, () => handleEffect({ options })),
+          tap(action => action$$.next(action))
+        );
+      } else if (action.__type === 'reducer') {
+        return of(action).pipe(
+          tap(action => reducer$$.next(action)),
+          applyMiddleware(plugin.api.middlewares.reducer, store, () => handleReducer({ app })),
+          tap(action => state$$.next(action))
+        );
+      } else {
+        return of(action).pipe(tap(action => unknown$$.next(action)));
+      }
+    })
+  );
 };
 
 export function createModelStream(model: Model) {
@@ -144,7 +146,7 @@ export function createModelStream(model: Model) {
   });
 }
 
-export default function connectRxjs({ app, plugin, options }) {
+export default function connectRxjs({ app, plugin, options }: Ctx) {
   state$$.next(app._initialState);
   action$$
     .pipe(
