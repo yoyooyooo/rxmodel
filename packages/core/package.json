@@ -2,7 +2,7 @@
   "name": "@rxmodel/core",
   "version": "0.0.4-alpha.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "es/index.js",
   "files": [
     "lib",
     "es"
@@ -16,8 +16,7 @@
   "dependencies": {
     "invariant": "^2.2.4",
     "is-plain-object": "^3.0.0",
-    "rxjs": "latest",
-    "warning": "^4.0.3"
+    "rxjs": "latest"
   },
   "gitHead": "3dc663b9c112637ea7947a830d8180ef806b704f",
   "devDependencies": {

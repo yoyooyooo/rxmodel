@@ -3,16 +3,23 @@
   "private": true,
   "scripts": {
     "build:all": "npx father build",
-    "format": "prettier --write \"**/*.js\""
+    "format": "prettier --write \"**/*.{js,ts}\""
   },
+  "bugs": {
+    "url": "https://github.com/yoyooyooo/rxmodel/issues"
+  },
+  "homepage": "https://github.com/yoyooyooo/rxmodel",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
   "devDependencies": {
+    "@umijs/fabric": "^1.2.1",
     "lerna": "^3.18.4",
     "prettier": "^1.19.1"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "dependencies": {
     "immer": "^5.0.0"
-  }
+  },
+  "license": "MIT"
 }

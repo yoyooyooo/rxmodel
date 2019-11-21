@@ -19,5 +19,8 @@
   "gitHead": "3dc663b9c112637ea7947a830d8180ef806b704f",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@rxmodel/core": "^0.0.4-alpha.0"
   }
 }

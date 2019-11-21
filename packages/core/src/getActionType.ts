@@ -1,10 +1,12 @@
-export default (models, action, namespace) => {
+import { Model, AnyAction } from './types';
+
+export default (models: Model[], action: AnyAction, namespace: string) => {
   if (typeof namespace === 'undefined') {
     namespace = action.type.split('/')[0];
   }
 
   const model = models.find(a => namespace === a.namespace);
-  let type;
+  let type: 'unknown' | 'reducer' | 'effect' | 'subscription';
   if (!model) {
     type = 'unknown';
   } else {
@@ -19,12 +21,5 @@ export default (models, action, namespace) => {
     }
   }
 
-  // let actionType;
-  // if (action.type.startsWith("@@")) {
-  //   type = "internal";
-  // }
-  // if (action.type.startsWith("$$")) {
-  //   type = "plugin";
-  // }
   return type;
 };

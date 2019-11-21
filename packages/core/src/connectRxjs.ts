@@ -1,29 +1,41 @@
-import invariant from 'invariant';
-import { BehaviorSubject, EMPTY, isObservable, of, pipe, Subject } from 'rxjs';
+import * as invariant from 'invariant';
+import {
+  BehaviorSubject,
+  EMPTY,
+  isObservable,
+  Observable,
+  of,
+  OperatorFunction,
+  pipe,
+  Subject,
+} from 'rxjs';
 import { catchError, filter, map, mergeMap, scan, tap } from 'rxjs/operators';
-import applyMiddleware from './rxjs/applyMiddleware';
+import applyMiddleware from './applyMiddleware';
+import { AnyAction, Model, Store } from './types';
 
-export const state$$ = new BehaviorSubject(null);
-export const unkown$$ = new Subject();
-export const reducer$$ = new Subject();
-export const effect$$ = new Subject();
-export const action$$ = new Subject().pipe(
+export const state$$ = new BehaviorSubject<any>(null);
+export const unknown$$ = new Subject<AnyAction>();
+export const reducer$$ = new Subject<AnyAction>();
+export const effect$$ = new Subject<AnyAction>();
+export const action$$ = new Subject<AnyAction>();
+
+action$$.pipe(
   tap(a => {
     invariant(a && a.type, `dispatch: action should be a plain Object with type`);
   })
 );
 
-export function dispatch(action) {
+export function dispatch(action: AnyAction) {
   action$$.next(action);
 }
 
-export const store = {
+export const store: Store = {
   state$$,
   action$$,
   reducer$$,
   effect$$,
-  unkown$$,
-  dispatch: action => {
+  unknown$$,
+  dispatch: (action: AnyAction) => {
     if (action.type.startsWith('@@')) {
       action.type = action.type.slice(2);
     }
@@ -31,9 +43,9 @@ export const store = {
   },
 };
 
-function handleReducer({ app, plugin }) {
+function handleReducer({ app }) {
   return pipe(
-    scan((state, action, i) => {
+    scan<AnyAction>((state, action) => {
       const reducers = app._reducers;
       const namespace = action.__namespace;
       if (reducers[namespace]) {
@@ -51,20 +63,20 @@ function handleReducer({ app, plugin }) {
   );
 }
 
-const prefixNamespace = (action, namespace) => {
+const prefixNamespace = (action: AnyAction, namespace: string) => {
   if (!action.type.includes('/')) {
     action.type = namespace + '/' + action.type;
   }
   return action;
 };
-const _dispatch = namespace => action => {
+const _dispatch = (namespace: string) => (action: AnyAction) => {
   dispatch(prefixNamespace(action, namespace));
 };
-function handleEffect({ app, plugin, options }) {
+const handleEffect = ({ options }) => {
   return pipe(
-    mergeMap(prevAction => {
+    mergeMap<AnyAction, Observable<AnyAction>>(prevAction => {
       const effect = prevAction.__model.effects[prevAction.type];
-      const effectToReducer = action$ => {
+      const effectToReducer: OperatorFunction<AnyAction, AnyAction> = action$ => {
         const returnObservable$ = effect(
           action$,
           {
@@ -79,7 +91,7 @@ function handleEffect({ app, plugin, options }) {
         );
         return returnObservable$;
       };
-      const newAction = { ...prevAction };
+      const newAction = { ...prevAction } as AnyAction;
       Reflect.deleteProperty(newAction, '__type');
       Reflect.deleteProperty(newAction, '__namespace');
       Reflect.deleteProperty(newAction, '__model');
@@ -88,48 +100,57 @@ function handleEffect({ app, plugin, options }) {
         filter(action => action && action.type),
         map(action => prefixNamespace(action, prevAction.__namespace)),
         tap(newAction => {
-          invariant(prevAction.type !== newAction.type, `[model.effects] effect should not return self`);
+          invariant(
+            prevAction.type !== newAction.type,
+            `[model.effects] effect should not return self`
+          );
         })
       );
     })
   );
-}
+};
 
-function handleAction({ app, plugin, options }) {
+const handleAction: (a: any) => OperatorFunction<AnyAction, AnyAction> = ({
+  app,
+  plugin,
+  options,
+}) => {
   return action$ =>
     action$.pipe(
       applyMiddleware(plugin.api.middlewares.action, { app }),
-      mergeMap(action => {
+      mergeMap<AnyAction, Observable<AnyAction>>(action => {
         if (action.__type === 'effect') {
           return of(action).pipe(
             tap(action => effect$$.next(action)),
-            applyMiddleware(plugin.api.middlewares.effect, store, () => handleEffect({ app, plugin, options })),
+            applyMiddleware(plugin.api.middlewares.effect, store, () => handleEffect({ options })),
             tap(action => action$$.next(action))
           );
         } else if (action.__type === 'reducer') {
           return of(action).pipe(
             tap(action => reducer$$.next(action)),
-            applyMiddleware(plugin.api.middlewares.reducer, store, () => handleReducer({ app, plugin })),
+            applyMiddleware(plugin.api.middlewares.reducer, store, () => handleReducer({ app })),
             tap(action => state$$.next(action))
           );
         } else {
-          return of(action).pipe(tap(action => unkown$$.next(action)));
+          return of(action).pipe(tap(action => unknown$$.next(action)));
         }
       })
     );
-}
+};
 
-export function createModelStream(model) {
+export function createModelStream(model: Model) {
   Object.keys(model.subscriptions || {}).forEach(key => {
     model.subscriptions[key](store);
   });
 }
 
-export default function connectRxjs({ app, plugin, options, reducers }) {
+export default function connectRxjs({ app, plugin, options }) {
   state$$.next(app._initialState);
   action$$
     .pipe(
-      applyMiddleware(plugin.api.middlewares.total, store, () => handleAction({ app, plugin, options })),
+      applyMiddleware(plugin.api.middlewares.total, store, () =>
+        handleAction({ app, plugin, options })
+      ),
       catchError(err => {
         console.error(`[error]`, err);
         return EMPTY;

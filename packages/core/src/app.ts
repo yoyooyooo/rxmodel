@@ -3,11 +3,12 @@ import connectRxjs, { createModelStream, store } from './connectRxjs';
 import getReducer from './getReducer';
 import Plugin from './Plugin';
 import prefixNamespace from './prefixNamespace';
+import { App, Model, Options } from './types';
 
-function createApp(options) {
+function createApp(options: Options) {
   const plugin = new Plugin({ registerModel: model, store }, options);
 
-  let app = {
+  let app: App = {
     _initialState: {},
     _models: [],
     _reducers: {},
@@ -20,7 +21,7 @@ function createApp(options) {
   (options.plugins || []).forEach(p => plugin.use(p));
   return app;
 
-  function model(m) {
+  function model(m: Model) {
     if (process.env.NODE_ENV !== 'production') {
       checkModel(m, app._models);
     }
@@ -41,6 +42,7 @@ function createApp(options) {
 
   function start() {
     connectRxjs({ app, plugin, options });
+    return app;
   }
 }
 

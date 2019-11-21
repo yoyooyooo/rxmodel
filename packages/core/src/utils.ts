@@ -1,18 +1,13 @@
 import isPlainObject from 'is-plain-object';
+import { Model } from './types';
+
 export { isPlainObject };
 export const isArray = Array.isArray.bind(Array);
-export const isFunction = o => typeof o === 'function';
-export const returnSelf = m => m;
+export const isFunction = (o: any) => typeof o === 'function';
+export const returnSelf = <S, A>(s: S, a: A) => s as S;
 export const noop = () => {};
-export const findIndex = (array, predicate) => {
-  for (let i = 0, { length } = array; i < length; i += 1) {
-    if (predicate(array[i], i)) return i;
-  }
 
-  return -1;
-};
-
-export function isEffect(type, models) {
+export function isEffect(type: string, models: Model[]) {
   if (!type || typeof type !== 'string') return false;
   const [namespace] = type.split('/');
   const model = models.filter(m => m.namespace === namespace)[0];
@@ -24,7 +19,7 @@ export function isEffect(type, models) {
   return false;
 }
 
-export function reducerOrEffect(type, models) {
+export function reducerOrEffect(type: string, models: Model[]) {
   if (!type || typeof type !== 'string') return false;
   const [namespace] = type.split('/');
   const model = models.filter(m => m.namespace === namespace)[0];

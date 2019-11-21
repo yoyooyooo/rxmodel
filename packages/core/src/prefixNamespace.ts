@@ -1,9 +1,9 @@
-import warning from 'warning';
-import { isArray } from './utils';
+import * as invariant from 'invariant';
+import { Model } from './types';
 
-function prefix(obj, namespace, type) {
+function prefix(obj: any, namespace: string, type: string) {
   return Object.keys(obj).reduce((memo, key) => {
-    warning(
+    invariant(
       key.indexOf(`${namespace}/`) !== 0,
       `[prefixNamespace]: ${type} ${key} should not be prefixed with namespace ${namespace}`
     );
@@ -13,7 +13,7 @@ function prefix(obj, namespace, type) {
   }, {});
 }
 
-export default function prefixNamespace(model) {
+export default function prefixNamespace(model: Model) {
   const { namespace, reducers, effects } = model;
   if (reducers) {
     model.reducers = prefix(reducers, namespace, 'reducer');

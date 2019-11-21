@@ -6,7 +6,5 @@
     "target": "esnext",
     "moduleResolution": "node",
     "jsx": "react"
-  },
-  "typings": "./typings/index.d.ts",
-  "exclude": ["node_modules", "build", "scripts"]
+  }
 }

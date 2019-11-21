@@ -1,11 +1,13 @@
-import invariant from 'invariant';
+import * as invariant from 'invariant';
 import { isPlainObject } from './utils';
-import { runInThisContext } from 'vm';
 import handleAction from './middlewares/handleAction';
+import { Store, Model, AnyAction, Options } from './types';
+import { Middleware } from './applyMiddleware';
 
+type hooks = 'onAction' | 'onReducer' | 'onEffect' | '_handleActions';
 const hooks = ['onAction', 'onReducer', 'onEffect', '_handleActions'];
 
-export function filterHooks(obj) {
+export function filterHooks(obj: any) {
   return Object.keys(obj).reduce((memo, key) => {
     if (hooks.indexOf(key) > -1) {
       memo[key] = obj[key];
@@ -15,16 +17,17 @@ export function filterHooks(obj) {
 }
 
 class Hook {
+  fns: any[];
   constructor() {
     this.fns = [];
   }
-  add = fn => {
+  add = (fn: (...args: any[]) => void | any) => {
     this.fns.push(fn);
   };
-  apply = (...args) => {
+  apply = (...args: any[]) => {
     return this.fns[0](...args);
   };
-  applyForEach = (...args) => {
+  applyForEach = (...args: any[]) => {
     this.fns.forEach(fn => fn(...args));
   };
 
@@ -37,68 +40,63 @@ class Hook {
   // }
 }
 
-/**
- * @class Plugin
- * @param {*} api registerModel, middlewares
- * @memberof Plugin
- */
+type middlewareTypes = 'total' | 'action' | 'reducer' | 'effect';
+
+export interface Api {
+  registerModel: (m: Model) => Model;
+  registerMiddleware: <T = middlewareTypes>(
+    type: T,
+    middleware: Middleware<AnyAction, T extends 'action' ? AnyAction : any>
+  ) => void;
+  store: Store;
+  hooks: {
+    [k in hooks]: Hook;
+  };
+  middlewares: {
+    total: Middleware<AnyAction, any>[];
+    reducer: Middleware<AnyAction, any>[];
+    effect: Middleware<AnyAction, any>[];
+    action: Middleware<AnyAction, AnyAction>[];
+  };
+}
 export default class Plugin {
-  constructor(api, options) {
+  api: Api;
+  constructor(api: any, options: Options) {
     const { middlewares = {} } = options;
     this.api = api;
     this.api.hooks = hooks.reduce((memo, key) => {
       memo[key] = new Hook();
       return memo;
-    }, {});
+    }, {}) as { [k in hooks]: Hook };
     this.api.registerMiddleware = this.registerMiddleware.bind(this);
     this.api.middlewares = {
       total: middlewares.total || [],
       reducer: middlewares.reducer || [],
       effect: middlewares.effect || [],
-      action: [handleAction],
+      action: [handleAction, ...(middlewares.effect || [])],
     };
   }
 
-  registerMiddleware = (key, middleware) => {
+  registerMiddleware = <I, O>(key: string, middleware: Middleware<I, O>) => {
     this.api.middlewares[key].push(middleware);
   };
 
-  use = createPlugin => {
+  use = (createPlugin: (api: Api) => void | any) => {
     const hooksObj = createPlugin(this.api);
 
     if (hooksObj) {
-      invariant(isPlainObject(plugin), 'plugin.use: plugin must return plain object or undefined');
+      invariant(
+        isPlainObject(hooksObj),
+        'plugin.use: plugin must return plain object or undefined'
+      );
       Object.keys(hooksObj).forEach(key => {
         this.api.hooks[key].add(hooksObj[key]);
       });
     }
   };
 
-  apply = (key, defaultHandler) => {
-    const { hooks } = this;
-    const validApplyHooks = ['onError', 'onHmr'];
-    invariant(validApplyHooks.indexOf(key) > -1, `plugin.apply: hook ${key} cannot be applied`);
-    const fns = hooks[key];
-
-    return (...args) => {
-      if (fns.length) {
-        for (const fn of fns) {
-          fn(...args);
-        }
-      } else if (defaultHandler) {
-        defaultHandler(...args);
-      }
-    };
-  };
-
-  get = key => {
-    const { hooks } = this;
-    invariant(key in hooks, `plugin.get: hook ${key} cannot be got`);
-    return hooks[key];
-  };
-
-  modifyForEach = fns => {
-    return obj => {
+  modifyForEach = (fns: any[]) => {
+    return (obj: any) => {
       fns.forEach(fn => {
         obj = fn(obj);
       });
@@ -107,7 +105,7 @@ export default class Plugin {
   };
 }
 
-function _compose(...funcs) {
+function _compose(...funcs: any[]) {
   if (funcs.length === 1) {
     return funcs[0];
   }
@@ -115,8 +113,8 @@ function _compose(...funcs) {
   return funcs.reduce((a, b) => () => b(a), last);
 }
 
-export function compose(item, { initialValue }) {
+export function compose(items: any[], { initialValue }) {
   return () => {
-    return _compose(...item, initialValue)();
+    return _compose(...items, initialValue)();
   };
 }

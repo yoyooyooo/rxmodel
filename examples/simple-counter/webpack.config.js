@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -10,6 +10,9 @@ module.exports = {
     filename: 'main.js',
     publicPath: '/',
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   module: {
     rules: [
       {
@@ -17,6 +20,7 @@ module.exports = {
         loaders: ['babel-loader'],
         exclude: /node_modules/,
       },
+      { test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules/ },
     ],
   },
   devServer: {

@@ -1,6 +1,11 @@
 import { tap } from 'rxjs/operators';
+import { Api, AnyAction } from '@rxmodel/core';
 
-export default (config = {}) => api => {
+interface Config {
+  refCount?: boolean;
+}
+
+export default (config: Config = {}) => (api: Api) => {
   api.registerModel({
     namespace: 'loading',
     state: {
@@ -38,13 +43,13 @@ export default (config = {}) => api => {
     },
   });
 
-  let prevAction;
+  let prevAction: AnyAction;
   let counts = {};
   api.registerMiddleware('effect', store => next => action$ => {
     return action$.pipe(
       tap(action => {
         counts[action.type] = (counts[action.type] || 0) + 1;
-        const [namespace, actionType] = action.type.split('/');
+        const [namespace] = action.type.split('/');
         store.dispatch({
           type: 'loading/show',
           namespace,
@@ -57,7 +62,7 @@ export default (config = {}) => api => {
         const actionRefCount = prevAction.$loading && prevAction.$loading.refCount;
         const refCount = actionRefCount !== undefined ? actionRefCount : config.refCount;
         if (!refCount || (refCount && counts[prevAction.type] === 1)) {
-          const [namespace, actionType] = prevAction.type.split('/');
+          const [namespace] = prevAction.type.split('/');
           store.dispatch({
             type: 'loading/hide',
             namespace,
