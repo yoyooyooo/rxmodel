@@ -9,7 +9,9 @@
     "src"
   ],
   "keywords": [],
-  "author": "",
+  "authors": {
+    "email": "315915093@qq.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yoyooyooo/rxmodel/issues"

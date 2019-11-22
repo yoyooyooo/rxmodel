@@ -1,7 +1,10 @@
 {
   "name": "@rxmodel/core",
   "version": "0.0.5-alpha.1",
-  "description": "",
+  "description": "state manage based on rxjs",
+  "authors": {
+    "email": "315915093@qq.com"
+  },
   "main": "es/index.js",
   "files": [
     "lib",
@@ -9,7 +12,6 @@
     "src"
   ],
   "keywords": [],
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yoyooyooo/rxmodel/issues"

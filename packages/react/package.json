@@ -1,7 +1,10 @@
 {
   "name": "@rxmodel/react",
   "version": "0.0.5-alpha.1",
-  "description": "",
+  "description": "use with react",
+  "authors": {
+    "email": "315915093@qq.com"
+  },
   "main": "es/index.js",
   "files": [
     "lib",
