@@ -18,7 +18,6 @@ function createApp(options: Options) {
     use: plugin.use,
     store,
   };
-  (options.plugins || []).forEach(p => plugin.use(p));
   return app;
 
   function model(m: Model) {

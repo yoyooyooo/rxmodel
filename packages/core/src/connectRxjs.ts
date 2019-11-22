@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { catchError, filter, map, mergeMap, scan, tap } from 'rxjs/operators';
 import applyMiddleware from './applyMiddleware';
-import { AnyAction, Model, Store, App, Options } from './types';
+import { AnyAction, Model, Store, App, Options, Reducer } from './types';
 import Plugin from './Plugin';
 
 interface Ctx {
@@ -25,6 +25,7 @@ export const unknown$$ = new Subject<AnyAction>();
 export const reducer$$ = new Subject<AnyAction>();
 export const effect$$ = new Subject<AnyAction>();
 export const action$$ = new Subject<AnyAction>();
+export const emit$$ = new Subject<(state: any) => any>();
 
 action$$.pipe(
   tap(a => {
@@ -42,6 +43,7 @@ export const store: Store = {
   reducer$$,
   effect$$,
   unknown$$,
+  emit$$,
   dispatch: (action: AnyAction) => {
     if (action.type.startsWith('@@')) {
       action.type = action.type.slice(2);
@@ -52,21 +54,18 @@ export const store: Store = {
 
 function handleReducer({ app }: Ctx) {
   return pipe(
-    scan<AnyAction>((state, action) => {
+    map<AnyAction, (state: any) => any>(action => {
       const reducers = app._reducers;
       const namespace = action.__namespace;
       if (reducers[namespace]) {
-        Reflect.deleteProperty(action, '__type');
-        Reflect.deleteProperty(action, '__namespace');
-        Reflect.deleteProperty(action, '__model');
-        return {
+        return state => ({
           ...state,
           [namespace]: reducers[namespace](state[namespace], action),
-        };
+        });
       } else {
-        return state;
+        return state => state;
       }
-    }, state$$.value)
+    })
   );
 }
 
@@ -131,7 +130,7 @@ const handleAction = ({ app, plugin, options }: Ctx) => {
         return of(action).pipe(
           tap(action => reducer$$.next(action)),
           applyMiddleware(plugin.api.middlewares.reducer, store, () => handleReducer({ app })),
-          tap(action => state$$.next(action))
+          tap(reducer => emit$$.next(reducer))
         );
       } else {
         return of(action).pipe(tap(action => unknown$$.next(action)));
@@ -148,6 +147,7 @@ export function createModelStream(model: Model) {
 
 export default function connectRxjs({ app, plugin, options }: Ctx) {
   state$$.next(app._initialState);
+  emit$$.pipe(scan((state, reducer) => reducer(state), app._initialState)).subscribe(state$$);
   action$$
     .pipe(
       applyMiddleware(plugin.api.middlewares.total, store, () =>

@@ -11,7 +11,7 @@ export interface middlewares {
 
 export interface Options {
   extraEffectOperator?: { [k in string]: Operator<any, any> | OperatorFunction<any, any> };
-  plugins?: Plugin[];
+  plugins?: ((api: Api) => void | any)[];
   middlewares?: Partial<middlewares>;
 }
 
@@ -21,6 +21,7 @@ export interface Store {
   reducer$$: Subject<AnyAction>;
   effect$$: Subject<AnyAction>;
   unknown$$: Subject<AnyAction>;
+  emit$$: Subject<(state: any) => any>;
   dispatch: (action: AnyAction) => void;
 }
 

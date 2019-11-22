@@ -10,7 +10,8 @@
   },
   "homepage": "https://github.com/yoyooyooo/rxmodel",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "devDependencies": {
     "@umijs/fabric": "^1.2.1",

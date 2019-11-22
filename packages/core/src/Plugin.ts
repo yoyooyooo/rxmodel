@@ -61,6 +61,7 @@ export default class Plugin {
   api: Api;
   constructor(api: any, options: Options) {
     const { middlewares = {} } = options;
+    (options.plugins || []).forEach(p => this.use(p));
     this.api = api;
     this.api.hooks = hooks.reduce((memo, key) => {
       memo[key] = new Hook();
