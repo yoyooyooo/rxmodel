@@ -1,9 +1,9 @@
 import { state$$ } from '@rxmodel/core';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-const refEquality = (a, b) => a === b;
+const refEquality = (a: any, b: any) => a === b;
 
-export default function useSelector(selector, equalityFn = refEquality) {
+export default function useSelector(selector: (state: any) => any, equalityFn = refEquality) {
   const lastSelectValue = useRef();
   const [selectValue, setSelectValue] = useState(() => {
     const initialSelectValue = selector(state$$.value);
