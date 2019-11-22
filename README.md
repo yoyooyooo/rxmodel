@@ -86,6 +86,7 @@ const app = createApp({
   extraEffectOperator: {}, // 注入effect第三个参数，可以在这里加常用操作符
   middlewares: {  // 中间件
     total: [...],
+    action: [...],
     reducer: [...],
     effect: [...]
   }，
@@ -156,13 +157,13 @@ const app = createApp({
 
 可以自定义插件，通过初始化或者 app.use 注册
 
-## 插件基本写法
+### 插件基本写法
 
 ```js
 export default config => api => {};
 ```
 
-## api
+### api
 
 | 名称               | 调用                                                        | 描述               |
 | ------------------ | ----------------------------------------------------------- | ------------------ |
