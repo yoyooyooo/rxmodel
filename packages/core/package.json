@@ -5,14 +5,16 @@
   "main": "es/index.js",
   "files": [
     "lib",
-    "es"
+    "es",
+    "src"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yoyooyooo/rxmodel/issues"
+  },
+  "homepage": "https://github.com/yoyooyooo/rxmodel",
   "dependencies": {
     "invariant": "^2.2.4",
     "is-plain-object": "^3.0.0",
