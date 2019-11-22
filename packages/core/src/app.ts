@@ -46,7 +46,7 @@ function createApp(options: Options) {
   }
 }
 
-export default function init(opts = {}) {
+export default function init(opts: Options = {}) {
   const app = createApp(opts);
   return app;
 }

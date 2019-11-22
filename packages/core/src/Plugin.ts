@@ -1,11 +1,17 @@
 import * as invariant from 'invariant';
 import { isPlainObject } from './utils';
 import handleAction from './middlewares/handleAction';
-import { Store, Model, AnyAction, Options } from './types';
+import { Store, Model, AnyAction, Options, middlewares } from './types';
 import { Middleware } from './applyMiddleware';
 
-type hooks = 'onAction' | 'onReducer' | 'onEffect' | '_handleActions';
 const hooks = ['onAction', 'onReducer', 'onEffect', '_handleActions'];
+
+interface hooks {
+  onAction: Hook;
+  onReducer: Hook;
+  onEffect: Hook;
+  _handleActions: Hook;
+}
 
 export function filterHooks(obj: any) {
   return Object.keys(obj).reduce((memo, key) => {
@@ -40,24 +46,16 @@ class Hook {
   // }
 }
 
-type middlewareTypes = 'total' | 'action' | 'reducer' | 'effect';
-
+type registerMiddleware = <K extends keyof middlewares>(
+  type: K,
+  middleware: Middleware<AnyAction, K extends 'action' ? AnyAction : any>
+) => void;
 export interface Api {
   registerModel: (m: Model) => Model;
-  registerMiddleware: <T = middlewareTypes>(
-    type: T,
-    middleware: Middleware<AnyAction, T extends 'action' ? AnyAction : any>
-  ) => void;
+  registerMiddleware: registerMiddleware;
   store: Store;
-  hooks: {
-    [k in hooks]: Hook;
-  };
-  middlewares: {
-    total: Middleware<AnyAction, any>[];
-    reducer: Middleware<AnyAction, any>[];
-    effect: Middleware<AnyAction, any>[];
-    action: Middleware<AnyAction, AnyAction>[];
-  };
+  hooks: hooks;
+  middlewares: middlewares;
 }
 export default class Plugin {
   api: Api;
@@ -67,7 +65,7 @@ export default class Plugin {
     this.api.hooks = hooks.reduce((memo, key) => {
       memo[key] = new Hook();
       return memo;
-    }, {}) as { [k in hooks]: Hook };
+    }, {}) as hooks;
     this.api.registerMiddleware = this.registerMiddleware.bind(this);
     this.api.middlewares = {
       total: middlewares.total || [],
@@ -77,7 +75,7 @@ export default class Plugin {
     };
   }
 
-  registerMiddleware = <I, O>(key: string, middleware: Middleware<I, O>) => {
+  registerMiddleware: registerMiddleware = (key, middleware) => {
     this.api.middlewares[key].push(middleware);
   };
 

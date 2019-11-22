@@ -1,15 +1,18 @@
-import { UnaryFunction, OperatorFunction, Observable, Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Operator, OperatorFunction } from 'rxjs';
 import Plugin, { Api } from './Plugin';
+import { Middleware } from './applyMiddleware';
+
+export interface middlewares {
+  total: Middleware<AnyAction, any>[];
+  reducer: Middleware<AnyAction, any>[];
+  effect: Middleware<AnyAction, any>[];
+  action: Middleware<AnyAction, AnyAction>[];
+}
 
 export interface Options {
-  extraEffectOperator?: { [k in string]: any };
-  plugins?: any[];
-  middlewares?: {
-    total?: any[];
-    reducer?: any[];
-    effect?: any[];
-    action?: any[];
-  };
+  extraEffectOperator?: { [k in string]: Operator<any, any> | OperatorFunction<any, any> };
+  plugins?: Plugin[];
+  middlewares?: Partial<middlewares>;
 }
 
 export interface Store {
