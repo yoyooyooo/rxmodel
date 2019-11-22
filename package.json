@@ -17,8 +17,5 @@
     "lerna": "^3.18.4",
     "prettier": "^1.19.1"
   },
-  "dependencies": {
-    "immer": "^5.0.0"
-  },
   "license": "MIT"
 }
