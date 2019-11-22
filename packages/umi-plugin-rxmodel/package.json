@@ -1,0 +1,37 @@
+{
+  "name": "umi-plugin-rxmodel",
+  "version": "0.0.1",
+  "description": "use rxmodel more easier",
+  "authors": {
+    "email": "315915093@qq.com"
+  },
+  "peerDependencies": {
+    "umi": "2.x || ^2.9.0-0"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "cross-env APP_ROOT=$PWD/example umi dev",
+    "build": "father-build",
+    "prepublishOnly": "npm run build && np --no-cleanup --yolo --no-publish"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "father-build": "^1.8.0",
+    "np": "^5.0.3",
+    "umi": "^2.9.0",
+    "umi-types": ">= 0.4.0-beta.4",
+    "umi-utils": "^1.7.2"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yoyooyooo/rxmodel/issues"
+  },
+  "homepage": "https://github.com/yoyooyooo/rxmodel",
+  "publishConfig": {
+    "access": "public"
+  }
+}
