@@ -8,6 +8,7 @@ export interface Options {
     total?: any[];
     reducer?: any[];
     effect?: any[];
+    action?: any[];
   };
 }
 

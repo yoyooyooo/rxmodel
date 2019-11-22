@@ -73,7 +73,7 @@ export default class Plugin {
       total: middlewares.total || [],
       reducer: middlewares.reducer || [],
       effect: middlewares.effect || [],
-      action: [handleAction, ...(middlewares.effect || [])],
+      action: [handleAction, ...(middlewares.action || [])],
     };
   }
 
