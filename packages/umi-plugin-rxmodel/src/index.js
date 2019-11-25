@@ -6,11 +6,6 @@ import { chunkName, findJS, optsToArray, endWithSlash } from 'umi-utils';
 export function getModels(cwd, api) {
   const { config, winPath } = api;
 
-  //   const modelJSPath = findJS(cwd, 'model');
-  //   if (modelJSPath) {
-  //     return [winPath(modelJSPath)];
-  //   }
-
   return globby
     .sync(`./rxmodels/**/*.{ts,tsx,js,jsx}`, {
       cwd,

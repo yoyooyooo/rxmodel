@@ -2516,6 +2516,42 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
+"@rxmodel/core@latest":
+  version "0.0.5-alpha.5"
+  resolved "https://registry.npmjs.org/@rxmodel/core/-/core-0.0.5-alpha.5.tgz#cfd38fdbea67e8b876ddfad13861d8b8d30f818d"
+  integrity sha512-BMbb5HsUiwwStXN0W0DmGb6CAwjPFdDM0mJdKXAztrTRF0z/yHNTYimppGGOAmc19e2RamQxQPSMo3YBEVxJlg==
+  dependencies:
+    invariant "^2.2.4"
+    is-plain-object "^3.0.0"
+    rxjs latest
+
+"@rxmodel/devtools@latest":
+  version "0.0.5-alpha.5"
+  resolved "https://registry.npmjs.org/@rxmodel/devtools/-/devtools-0.0.5-alpha.5.tgz#7392f964636cdb1599ca6eb2fe8d2138db46c69a"
+  integrity sha512-2aVLeHb7GkiTfzP2cfO8FbIwY8CSFOt5lePai+B043fH5ch0K0eZEiHA5BKTI5sXjCcWjIy9BRLvtr0T2/9s7g==
+  dependencies:
+    "@rxmodel/core" "^0.0.5-alpha.5"
+
+"@rxmodel/immer@latest":
+  version "0.0.5-alpha.4"
+  resolved "https://registry.npmjs.org/@rxmodel/immer/-/immer-0.0.5-alpha.4.tgz#359b840294db22a701b14639a5b7dd2b74f086ec"
+  integrity sha512-oNugCiG675WMl3zXeeb11OQ8Umou86lNbKm9FAy2lOoamCZ0eDrkWNxLSOVJw1a9cLHITJvnAiJkM6zPZAlQdg==
+  dependencies:
+    immer "^5.0.0"
+
+"@rxmodel/loading@latest":
+  version "0.0.5-alpha.4"
+  resolved "https://registry.npmjs.org/@rxmodel/loading/-/loading-0.0.5-alpha.4.tgz#15678bbedb79c2d8a7c69fc01dca6ebcba8bb5d6"
+  integrity sha512-y/tLHc0QroQinhGnsTuZ+Fgd9xX5HFu4tLzHNnM1L8cVtBgN8III1MnAkNdf1GHDn4FkxRNQXVBAiDPbFzDubQ==
+
+"@rxmodel/react@latest":
+  version "0.0.5-alpha.5"
+  resolved "https://registry.npmjs.org/@rxmodel/react/-/react-0.0.5-alpha.5.tgz#99c5f55a7a680ece9ca3d397a49b9d6dd13fc41b"
+  integrity sha512-oBI45qAtIqdiA2FGiPwMRBrgwoVhyEdXj81Jpo+BYYXFBa7y+81TulCvLBXLg+YfZAwLfNbDSpe3GJNVdAYLpw==
+  dependencies:
+    axios "^0.19.0"
+    invariant "^2.2.4"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.npmjs.org/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
