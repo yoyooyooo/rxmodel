@@ -1,6 +1,6 @@
 {
   "name": "@rxmodel/react",
-  "version": "0.0.5-alpha.4",
+  "version": "0.0.5-alpha.5",
   "description": "use with react",
   "authors": {
     "email": "315915093@qq.com"
@@ -28,7 +28,7 @@
   "devDependencies": {
     "docz": "^1.3.2"
   },
-  "gitHead": "e5f9f8a0ac7c18bf06259f88a8a90592b5e68f24",
+  "gitHead": "981debec05f17746e24cf6102987e26fbf644345",
   "publishConfig": {
     "access": "public"
   }

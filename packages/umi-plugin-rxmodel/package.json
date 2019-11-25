@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-rxmodel",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "use rxmodel more easier",
   "authors": {
     "email": "315915093@qq.com"
@@ -32,5 +32,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e5f9f8a0ac7c18bf06259f88a8a90592b5e68f24"
+  "gitHead": "981debec05f17746e24cf6102987e26fbf644345"
 }

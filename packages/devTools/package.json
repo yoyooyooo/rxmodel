@@ -1,6 +1,6 @@
 {
   "name": "@rxmodel/devtools",
-  "version": "0.0.5-alpha.4",
+  "version": "0.0.5-alpha.5",
   "description": "",
   "main": "es/index.js",
   "files": [
@@ -20,11 +20,11 @@
   "peerDependencies": {
     "rxjs": "6.x"
   },
-  "gitHead": "e5f9f8a0ac7c18bf06259f88a8a90592b5e68f24",
+  "gitHead": "981debec05f17746e24cf6102987e26fbf644345",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@rxmodel/core": "^0.0.5-alpha.4"
+    "@rxmodel/core": "^0.0.5-alpha.5"
   }
 }
