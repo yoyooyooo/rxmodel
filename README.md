@@ -110,9 +110,10 @@ const app = createApp({
 
 ### 定义中间件
 
-中间件分为 total、reducer、effect，分别拦截全局 action、reducer、effect。对应的上下游分别是：
+中间件分为 total、action、reducer、effect，分别拦截全局 、单独拦截 action、reducer、effect。对应的上下游分别是：
 
 - total: action => state
+- action: action => action
 - reducer: action => state
 - effect: action => action
 
