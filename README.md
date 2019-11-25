@@ -1,5 +1,8 @@
 # rxmodel
 
+[![NPM version](https://img.shields.io/npm/v/@rxmodel/core.svg?style=flat)](https://npmjs.org/package/@rxmodel/core)
+[![NPM downloads](http://img.shields.io/npm/dm/@rxmodel/core.svg?style=flat)](https://npmjs.org/package/@rxmodel/core)
+
 基于 rxjs 的状态管理
 
 ## 安装

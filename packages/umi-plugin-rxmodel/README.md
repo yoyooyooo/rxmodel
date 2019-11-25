@@ -23,7 +23,7 @@ Configure in `.umirc.js`,
 
 ```js
 export default {
-  plugins: [['umi-plugin-umi-plugin-rxmodel', options]],
+  plugins: [['umi-plugin-rxmodel', options]],
 };
 ```
 
