@@ -1,6 +1,6 @@
 {
   "name": "@rxmodel/immer",
-  "version": "0.0.5-alpha.1",
+  "version": "0.0.5-alpha.3",
   "description": "",
   "main": "es/index.js",
   "files": [
@@ -18,7 +18,7 @@
   "dependencies": {
     "immer": "^5.0.0"
   },
-  "gitHead": "3dc663b9c112637ea7947a830d8180ef806b704f",
+  "gitHead": "e5f9f8a0ac7c18bf06259f88a8a90592b5e68f24",
   "publishConfig": {
     "access": "public"
   }

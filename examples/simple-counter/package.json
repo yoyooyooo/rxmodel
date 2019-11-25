@@ -1,6 +1,6 @@
 {
   "name": "simple-counter",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -28,5 +28,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "gitHead": "e5f9f8a0ac7c18bf06259f88a8a90592b5e68f24"
 }

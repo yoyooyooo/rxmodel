@@ -1,6 +1,6 @@
 {
   "name": "with-umi",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
@@ -52,5 +52,6 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "gitHead": "e5f9f8a0ac7c18bf06259f88a8a90592b5e68f24"
 }
