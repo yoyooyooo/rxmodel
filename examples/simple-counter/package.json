@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@rxmodel/core": "^0.0.5-alpha.0",
-    "@rxmodel/devtools": "^0.0.5-alpha.0",
-    "@rxmodel/immer": "^0.0.5-alpha.0",
-    "@rxmodel/loading": "^0.0.5-alpha.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "@rxmodel/core": "latest",
+    "@rxmodel/devtools": "latest",
+    "@rxmodel/immer": "latest",
+    "@rxmodel/loading": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

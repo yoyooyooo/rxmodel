@@ -1,19 +1,24 @@
 import createApp, { state$$ } from '@rxmodel/core';
-import devtools from '@rxmodel/devtools';
+// import devtools from '@rxmodel/devtools';
 import loading from '@rxmodel/loading';
 import immer from '@rxmodel/immer';
-import { fromEvent } from 'rxjs';
-import { delay, mapTo } from 'rxjs/operators';
+import { fromEvent, range, of } from 'rxjs';
+import { delay, mapTo, mergeMap, tap } from 'rxjs/operators';
 
 const app = createApp({
-  extraEffectOperator: {
-    test() {
-      console.log('test');
-    },
+  middlewares: {
+    reducer: [
+      () => next => action$ =>
+        action$.pipe(
+          mergeMap(action => range(0, 5).pipe(mapTo(action))),
+          tap(a => console.log('--->', a)),
+          next()
+        ),
+    ],
   },
 });
 app.use(immer());
-app.use(devtools());
+// app.use(devtools());
 app.use(loading());
 app.model({
   namespace: 'count',
