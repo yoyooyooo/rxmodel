@@ -1,14 +1,14 @@
 {
   "name": "simple-counter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "rxjs": "^6.5.3",
     "@rxmodel/core": "latest",
     "@rxmodel/devtools": "latest",
     "@rxmodel/immer": "latest",
-    "@rxmodel/loading": "latest"
+    "@rxmodel/loading": "latest",
+    "rxjs": "^6.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
