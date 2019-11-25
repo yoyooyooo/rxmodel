@@ -19957,6 +19957,11 @@ umi-plugin-routes@1.8.2:
   resolved "https://registry.npmjs.org/umi-plugin-routes/-/umi-plugin-routes-1.8.2.tgz#2cd33b48d86f7c22c40c1ba2c2a8bfd736e061ab"
   integrity sha512-0Tntqb46aoiZU6U5+FsUTnYnHQd0hN3JO5r5Zyg+PwaQ7WuSxAVwMXeZYTdxuBxxSdOa26UuTcYvmV9sNFEoDg==
 
+umi-plugin-rxmodel@latest:
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/umi-plugin-rxmodel/-/umi-plugin-rxmodel-0.0.7.tgz#696ce4207223a79967e7fde6e6db3290dc6e5c6c"
+  integrity sha512-nJ2lHGLp9H8aCXHuPB+eYRuQ+Q/6on5DwBpFxByh3SA3L4ZluCyO2p6QyGbtjRcWQ0vtrV/07mSnPVSvXmDdtw==
+
 umi-plugin-ui@1.4.5:
   version "1.4.5"
   resolved "https://registry.npmjs.org/umi-plugin-ui/-/umi-plugin-ui-1.4.5.tgz#ef74108b2feede1113fc0864f8a957b215470f34"

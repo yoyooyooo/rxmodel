@@ -6,7 +6,7 @@ export function createApp () {
   app = rxmodel({
     <%= ExtendDvaConfig %>
   });
-  if(process.env.ENV_NODE === 'development'){
+  if(process.env.NODE_ENV === 'development'){
     app.use(require('@rxmodel/devtools').default());
   }
   <%= RegisterPlugins %>
