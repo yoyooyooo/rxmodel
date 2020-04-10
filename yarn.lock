@@ -3459,9 +3459,9 @@ acorn@6.0.5:
   integrity sha512-i33Zgp3XWtmZBMNvCr4azvOFeWVw1Rk6p3hfi3LUDvIFraOMywb1kAtrbi+med14m4Xfpqm3zRZMT+c0FNE7kg==
 
 acorn@^5.0.3, acorn@^5.5.3:
-  version "5.7.3"
-  resolved "https://registry.npmjs.org/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1, acorn@^6.0.7, acorn@^6.1.1, acorn@^6.2.1:
   version "6.3.0"
@@ -19956,11 +19956,6 @@ umi-plugin-routes@1.8.2:
   version "1.8.2"
   resolved "https://registry.npmjs.org/umi-plugin-routes/-/umi-plugin-routes-1.8.2.tgz#2cd33b48d86f7c22c40c1ba2c2a8bfd736e061ab"
   integrity sha512-0Tntqb46aoiZU6U5+FsUTnYnHQd0hN3JO5r5Zyg+PwaQ7WuSxAVwMXeZYTdxuBxxSdOa26UuTcYvmV9sNFEoDg==
-
-umi-plugin-rxmodel@latest:
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/umi-plugin-rxmodel/-/umi-plugin-rxmodel-0.0.7.tgz#696ce4207223a79967e7fde6e6db3290dc6e5c6c"
-  integrity sha512-nJ2lHGLp9H8aCXHuPB+eYRuQ+Q/6on5DwBpFxByh3SA3L4ZluCyO2p6QyGbtjRcWQ0vtrV/07mSnPVSvXmDdtw==
 
 umi-plugin-ui@1.4.5:
   version "1.4.5"
