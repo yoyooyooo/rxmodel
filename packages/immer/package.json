@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/yoyooyooo/rxmodel",
   "dependencies": {
-    "immer": "^5.0.0"
+    "immer": "^8.0.1"
   },
   "gitHead": "981debec05f17746e24cf6102987e26fbf644345",
   "publishConfig": {
